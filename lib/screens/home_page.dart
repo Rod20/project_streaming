@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stream/core/utils/user_preferences.dart';
 import 'package:flutter_stream/model/asset_data.dart';
 import 'package:flutter_stream/res/custom_colors.dart';
 import 'package:flutter_stream/utils/mux_client.dart';
@@ -18,6 +19,8 @@ class _HomePageState extends State<HomePage> {
   TextEditingController _textControllerVideoURL;
   FocusNode _textFocusNodeVideoURL;
   bool isProcessing = false;
+
+  final UserPreferences prefs = UserPreferences();
 
   @override
   void initState() {
@@ -46,6 +49,18 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 setState(() {});
               },
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.network(
+                  prefs.userPhotoUrl,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ],
         ),

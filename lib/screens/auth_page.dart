@@ -1,13 +1,10 @@
-/*
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:servisurusers/core/api/api_firebase.dart';
-import 'package:servisurusers/core/utils/user_preferences.dart';
-import 'package:servisurusers/ui/resources/app_colors.dart';
-import 'package:servisurusers/ui/screens/home/home_screen.dart';
-import 'package:servisurusers/ui/widgets/login_button.dart';
-import 'package:servisurusers/ui/widgets/servisur_header.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_stream/core/api/api_firebase.dart';
+import 'package:flutter_stream/core/utils/user_preferences.dart';
+import 'package:flutter_stream/res/custom_colors.dart';
+import 'package:flutter_stream/screens/home_page.dart';
+import 'package:flutter_stream/widgets/login_button.dart';
 
 
 class AuthScreen extends StatefulWidget {
@@ -32,21 +29,17 @@ class _AuthScreenState extends State<AuthScreen> {
         title: Text("Iniciar Sesión"),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: lightPrimary,
+        backgroundColor: CustomColors.muxPinkLight,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             _notNowButton(context),
-            ServisurHeader.medium(),
+            //StreamingHeader.medium(),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: googleSignIn(context),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: facebookSignIn(context),
             ),
           ],
         ),
@@ -66,7 +59,7 @@ class _AuthScreenState extends State<AuthScreen> {
         onPressed: () {
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (BuildContext context) => HomeScreen())
+              MaterialPageRoute(builder: (BuildContext context) => HomePage())
           );
         },
       ),
@@ -92,7 +85,7 @@ class _AuthScreenState extends State<AuthScreen> {
           prefs.userFirebaseId = user.uid;
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (BuildContext context) => HomeScreen())
+              MaterialPageRoute(builder: (BuildContext context) => HomePage())
           );
         }else{
           Flushbar(
@@ -106,43 +99,9 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  Widget facebookSignIn(BuildContext context) {
-    return LoginButton(
-      iconButton: Image.asset("assets/images/facebook_icon.png"),
-      textButton: "Continuar con Facebook",
-      onPressed: () {
-        initiateFacebookLogin();
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (BuildContext context) => HomeScreen())
-        );
-      },
-    );
-  }
-
-  void initiateFacebookLogin() async {
-    var facebookLogin = FacebookLogin();
-    var facebookLoginResult =
-    await facebookLogin.logInWithReadPermissions(['email']);
-    switch (facebookLoginResult.status) {
-      case FacebookLoginStatus.error:
-        print("Error");
-        onLoginStatusChanged(false);
-        break;
-      case FacebookLoginStatus.cancelledByUser:
-        print("CancelledByUser");
-        onLoginStatusChanged(false);
-        break;
-      case FacebookLoginStatus.loggedIn:
-        print("LoggedIn");
-        onLoginStatusChanged(true);
-        break;
-    }
-  }
-
   void onLoginStatusChanged(bool isLoggedIn) {
     setState(() {
       this.isLoggedIn = isLoggedIn;
     });
   }
-}*/
+}

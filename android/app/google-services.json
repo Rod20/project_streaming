@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "651141973412",
+    "firebase_url": "https://streamingapp-2121e-default-rtdb.firebaseio.com",
+    "project_id": "streamingapp-2121e",
+    "storage_bucket": "streamingapp-2121e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651141973412:android:08c7e91258c7ada393ed31",
+        "android_client_info": {
+          "package_name": "com.souvikbiswas.flutter_stream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "651141973412-jkvn347niq4uj4e88q70eqhhg2gen8tj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs20fMlOZ9wSIpAOhwyETtAsKdzo3mKh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "651141973412-jkvn347niq4uj4e88q70eqhhg2gen8tj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
