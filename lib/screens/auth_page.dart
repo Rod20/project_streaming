@@ -5,6 +5,7 @@ import 'package:flutter_stream/core/utils/user_preferences.dart';
 import 'package:flutter_stream/res/custom_colors.dart';
 import 'package:flutter_stream/screens/home_page.dart';
 import 'package:flutter_stream/widgets/login_button.dart';
+import 'package:flutter_stream/widgets/streaming_header.dart';
 
 
 class AuthScreen extends StatefulWidget {
@@ -36,7 +37,7 @@ class _AuthScreenState extends State<AuthScreen> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             _notNowButton(context),
-            //StreamingHeader.medium(),
+            StreamingHeader.medium(),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: googleSignIn(context),

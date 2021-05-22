@@ -36,9 +36,14 @@ dependencies:
   firebase_database: "^6.1.2"
   cloud_firestore: "^2.1.0"
   google_sign_in: "^4.5.1"
+  firebase_storage: "^8.0.6"
   another_flushbar: ^1.10.17
   shared_preferences: ^0.5.3+4
-
+  flutter_ffmpeg: ^0.4.0
+  image_picker: ^0.7.4
+  path_provider: ^2.0.1
+  filesize: ^1.0.4
+  timeago: ^2.0.21
 
 dev_dependencies:
   flutter_test:
