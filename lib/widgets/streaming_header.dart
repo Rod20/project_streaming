@@ -47,7 +47,7 @@ class StreamingHeader extends StatelessWidget {
         UIHelper.verticalSpaceMedium(),
         Text(
           "Streaming Project",
-          style: Theme.of(context).textTheme.display4,
+          style: Theme.of(context).textTheme.display1,
           overflow: TextOverflow.ellipsis,
         ),
         UIHelper.verticalSpaceSmall(),

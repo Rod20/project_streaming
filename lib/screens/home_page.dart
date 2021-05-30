@@ -53,6 +53,11 @@ class _HomePageState extends State<HomePage> {
     _textControllerVideoURL = TextEditingController(text: demoVideoUrl);
     _textFocusNodeVideoURL = FocusNode();
 
+    FirebaseProvider.listenToVideos((newVideos) {
+      setState(() {
+        _videos = newVideos;
+      });
+    });
     // Start other method *FFmpeg
     /*EncodingProvider.enableStatisticsCallback((int time,
         int size,
@@ -76,14 +81,29 @@ class _HomePageState extends State<HomePage> {
     final Reference ref =
     FirebaseStorage.instance.ref().child(folderName).child(basename);
     UploadTask uploadTask = ref.putFile(file);
-    uploadTask.snapshotEvents.listen(_onUploadProgress);
+    uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
+      print('Snapshot state: ${snapshot.state}'); // paused, running, complete
+      print('Progress: ${snapshot.totalBytes / snapshot.bytesTransferred}');
+    }, onError: (Object e) {
+      print(e); // FirebaseException
+    });
+
+// Optional
+    uploadTask
+        .then((TaskSnapshot snapshot) {
+      print('Upload complete!');
+    })
+        .catchError((Object e) {
+      print(e); // FirebaseException
+    });
     TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => print("complete"));
     String videoUrl = await taskSnapshot.ref.getDownloadURL();
     return videoUrl;
   }
 
   void _onUploadProgress(event) {
-    if (event.type == TaskState.running) {
+    TaskSnapshot snapshot;
+    if (event.type == snapshot.state) {
       final double progress =
           event.snapshot.bytesTransferred / event.snapshot.totalByteCount;
       setState(() {
@@ -147,11 +167,11 @@ class _HomePageState extends State<HomePage> {
 
     final rawVideoPath = rawVideoFile.path;
     final info = await EncodingProvider.getMediaInformation(rawVideoPath);
-    final aspectRatio = EncodingProvider.getAspectRatio(info);
+    //final aspectRatio = EncodingProvider.getAspectRatio(info);
 
     setState(() {
       _processPhase = 'Generating thumbnail';
-      _videoDuration = EncodingProvider.getDuration(info);
+      //_videoDuration = EncodingProvider.getDuration(info);
       _progress = 0.0;
     });
 
@@ -177,7 +197,7 @@ class _HomePageState extends State<HomePage> {
       videoUrl: videoUrl,
       thumbUrl: thumbUrl,
       coverUrl: thumbUrl,
-      aspectRatio: aspectRatio,
+      aspectRatio: 1.78,
       uploadedAt: DateTime.now().millisecondsSinceEpoch,
       videoName: videoName,
     );
@@ -287,9 +307,10 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Center(child: _processing ? _getProgressBar() : _getListView()),
         floatingActionButton: FloatingActionButton(
+            backgroundColor: CustomColors.muxPink,
             child: _processing
                 ? CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(CustomColors.muxPinkLight),
+              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
             )
                 : Icon(Icons.add),
             onPressed: _takeVideo
@@ -512,14 +533,11 @@ class _HomePageState extends State<HomePage> {
                       children: <Widget>[
                         Stack(
                           children: <Widget>[
-                            Container(
-                              width: thumbWidth.toDouble(),
-                              height: thumbHeight.toDouble(),
-                              child: Center(child: CircularProgressIndicator()),
-                            ),
                             ClipRRect(
                               borderRadius: new BorderRadius.circular(8.0),
                               child: FadeInImage.assetNetwork(
+                                height: 150,
+                                width: 150,
                                 placeholder: 'assets/icon/icon.png',
                                 image: video.thumbUrl,
                               ),
